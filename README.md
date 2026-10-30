@@ -6,11 +6,13 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 > [!CAUTION]
 > **免責事項（必ずお読みください）**
 >
+> **このリポジトリ（プログラム・`TclAutoRes.exe`・文書）は、AI（Claude などの生成 AI）を使って作ったものです。参考用として公開しています。作者は内容をすべて検証できておらず、責任は取れません。**
+>
 > これは個人が自分の機器で試したものを公開しているだけで、TCL・Google・Microsoft・NVIDIA などのメーカーとは一切関係がありません。
 > TV の開発者向け機能（ADB）を使い、PC の表示モードを自動で変更します。**機器の故障、画面が映らなくなること、データの消失、保証の対象外になること、ネットワーク上の不正アクセス、その他あらゆる損害が起きる可能性があります。**
 > **利用はすべて自己責任です。利用者や第三者に損害が生じても、作者は一切の責任を負いません。作者に文句・苦情・損害賠償などの請求をしないことに同意できる場合だけ使ってください。** 詳細：[DISCLAIMER.md](DISCLAIMER.md)
 >
-> **Disclaimer:** Provided "AS IS", without warranty of any kind. Not affiliated with TCL or any other vendor. It may damage hardware, leave you without a picture, void warranties or cause other loss. **You use it entirely at your own risk; the author accepts no liability whatsoever and you agree not to make any claim against the author.** See [DISCLAIMER.md](DISCLAIMER.md).
+> **Disclaimer:** This repository (code, `TclAutoRes.exe` and documents) was made with AI and is published for reference only; the author has not verified all of it and cannot take responsibility for it. Provided "AS IS", without warranty of any kind. Not affiliated with TCL or any other vendor. It may damage hardware, leave you without a picture, void warranties or cause other loss. **You use it entirely at your own risk; the author accepts no liability whatsoever and you agree not to make any claim against the author.** See [DISCLAIMER.md](DISCLAIMER.md).
 
 ## 仕組み
 
@@ -21,7 +23,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 
 - 管理者権限は不要です。TV の設定やファイルは変更しません（読み取りだけ）。
 - Windows のスタートアップ（サインイン時）で裏で動き、システムトレイのアイコンで ON/OFF できます。
-- Windows 標準の PowerShell 5.1 だけで動きます。必要なのは Google 公式の `adb.exe` だけです。トレイの起動役 `TclAutoRes.exe` も、Windows 標準の C# コンパイラーで手元で作ります（配布物に .exe は含みません）。
+- Windows 標準の PowerShell 5.1 だけで動きます。必要なのは Google 公式の `adb.exe` だけです。トレイの起動役 `TclAutoRes.exe` は、[Releases](https://github.com/YAHOaaaaa/tcl-gamemaster-autores/releases) の zip に入っています（署名なし）。自動起動の登録のときに、Windows 標準の C# コンパイラーで同梱のソースから作り直すこともできます。
 
 ## 対応状況
 
@@ -50,7 +52,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
    powershell -NoProfile -ExecutionPolicy Bypass -File .\TclAutoRes.ps1
    powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1
    ```
-6. サインインすると `TclAutoRes.exe` が起動し、システムトレイのアイコンから自動切替の ON/OFF、今すぐ同期、手動切替、ログ表示ができます。`TclAutoRes.exe` は、登録のときに同梱のソースから手元で作られます（[docs/setup.md](docs/setup.md) の 7 章）。
+6. サインインすると `TclAutoRes.exe` が起動し、システムトレイのアイコンから自動切替の ON/OFF、今すぐ同期、手動切替、ログ表示ができます（[docs/setup.md](docs/setup.md) の 7 章）。
 
 ## ほかの TCL TV で使う／AI に任せる
 
@@ -66,7 +68,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 
 ## English summary
 
-TclAutoRes is a small Windows PowerShell watcher (no admin rights) that follows a TCL Google TV's Game Bar "screen ratio" setting over adb and switches the PC's display mode to a configured resolution/refresh rate per ratio (e.g. 16:9 → 3840x2160@120, 21:9 → 3840x1600@120). It never modifies the TV; it only reads `logcat` (and, on MediaTek TVs, a read-only HDMI receiver debug node to verify the new mode and fall back if there is no picture). The tray icon runs as `TclAutoRes.exe`, a small launcher that `tools/Install-Autostart.ps1` compiles locally from `src/TclAutoResLauncher.cs` (no binary is shipped). Verified log detection on a TCL 85T8B (JP, MT9653, Game Bar 3.00.19). For other models, run `tools/Discover-TvSignals.ps1` and follow `docs/porting.md`; AI assistants should read `AGENTS.md` first. Use entirely at your own risk - see `DISCLAIMER.md` and `SECURITY.md`.
+TclAutoRes is a small Windows PowerShell watcher (no admin rights) that follows a TCL Google TV's Game Bar "screen ratio" setting over adb and switches the PC's display mode to a configured resolution/refresh rate per ratio (e.g. 16:9 → 3840x2160@120, 21:9 → 3840x1600@120). It never modifies the TV; it only reads `logcat` (and, on MediaTek TVs, a read-only HDMI receiver debug node to verify the new mode and fall back if there is no picture). The tray icon runs as `TclAutoRes.exe`, a small launcher built from `src/TclAutoResLauncher.cs`; the release zip includes an unsigned build, and `tools/Install-Autostart.ps1` can rebuild it locally. Verified log detection on a TCL 85T8B (JP, MT9653, Game Bar 3.00.19). For other models, run `tools/Discover-TvSignals.ps1` and follow `docs/porting.md`; AI assistants should read `AGENTS.md` first. Use entirely at your own risk - see `DISCLAIMER.md` and `SECURITY.md`.
 
 ## ライセンス
 

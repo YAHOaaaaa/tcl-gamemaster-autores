@@ -1,5 +1,11 @@
 # 変更履歴 / Changelog
 
+## v2.0.1（2026-10-30）
+
+- **リリースに `TclAutoRes.exe` を添付**：リリースの zip（`TclAutoRes-v2.0.1.zip`）に、タグのソースからビルドした `TclAutoRes.exe` と `SHA256SUMS.txt` を入れました。コード署名はありません。自動起動の登録では、これまでどおり同梱のソースから作り直したものを使います。
+- **免責事項を追加**：このリポジトリ（プログラム・`TclAutoRes.exe`・文書）は AI を使って作ったもので、参考用として公開していること、作者は責任を取れないことを README と DISCLAIMER.md に明記しました。
+- プログラムの動作は v2.0.0 と同じです。
+
 ## v2.0.0（2026-10-30）
 
 - **32:9 に対応**：Game Bar で 32:9 にすると、3840x1080@120 に自動で切り替わります（85T8B で確認）。
@@ -18,4 +24,4 @@
 
 ---
 
-**English:** v2.0.0 adds 32:9 (3840x1080@120, verified on the 85T8B) by falling back to the raw mode list when a custom resolution is outside the current (overridden) EDID, and runs the tray icon as `TclAutoRes.exe`, built locally from the included C# source (no binary is shipped). v1.0.0 was the first release (16:9 / 21:9).
+**English:** v2.0.1 attaches an unsigned `TclAutoRes.exe` (built from the tagged source, with SHA-256 sums) to the release and states that this repository was made with AI and is for reference only; behaviour is unchanged from v2.0.0. v2.0.0 adds 32:9 (3840x1080@120, verified on the 85T8B) by falling back to the raw mode list when a custom resolution is outside the current (overridden) EDID, and runs the tray icon as `TclAutoRes.exe`, built locally from the included C# source (no binary is shipped). v1.0.0 was the first release (16:9 / 21:9).

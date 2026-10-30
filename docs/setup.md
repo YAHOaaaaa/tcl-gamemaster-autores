@@ -64,7 +64,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\TclAutoRes.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1          # 登録して開始（トレイアイコン付き）
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1 -Remove  # 解除
 ```
-- 登録のとき、`tools\Build-Exe.ps1` で `TclAutoRes.exe`（トレイアイコンの起動役）を手元で作ります。Windows 標準の C# コンパイラーを使うので、管理者権限もダウンロードも不要です。ソースは `src\TclAutoResLauncher.cs` です。
+- `TclAutoRes.exe`（トレイアイコンの起動役）は、[Releases](https://github.com/YAHOaaaaa/tcl-gamemaster-autores/releases) の zip に入っていて、ダブルクリックでも起動できます。コード署名は無いので、Windows が警告を出すことがあります。zip の中の `SHA256SUMS.txt` で、ファイルが壊れたり差し替えられたりしていないか確かめられます。
+- 登録のときは、`tools\Build-Exe.ps1` で `TclAutoRes.exe` を同梱のソース（`src\TclAutoResLauncher.cs`）から作り直して、それを使います。Windows 標準の C# コンパイラーを使うので、管理者権限もダウンロードも不要です。
 - Windows にサインインすると `TclAutoRes.exe` が起動し、通知領域（システムトレイ）に TV の形のアイコンが出て、裏で監視が始まります。窓は出ません。タスクバーの設定やタスクマネージャーでは「TclAutoRes」と表示されます。
 - 初めて `TclAutoRes.exe` で登録したときは、アイコンが「^」の中に隠れていることがあります。設定 → 個人用設定 → タスクバー → その他のシステム トレイ アイコン で「TclAutoRes」をオンにすると、常に表示されます（以前の「Windows PowerShell」の項目は不要です）。
 - 登録し直すと、動いている TclAutoRes をいったん止めてから、`TclAutoRes.exe` を作り直して起動します。

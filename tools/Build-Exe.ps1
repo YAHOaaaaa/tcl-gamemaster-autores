@@ -4,8 +4,8 @@
   nothing is downloaded: it uses the C# compiler that ships with .NET Framework 4 on every Windows 10/11.
 .DESCRIPTION
   TclAutoRes.exe runs TclAutoResTray.ps1 inside its own process, so Windows shows the tray icon as
-  "TclAutoRes" instead of "Windows PowerShell". The .exe is not in the repository; build it yourself
-  from the source you can read. tools\Install-Autostart.ps1 runs this script automatically.
+  "TclAutoRes" instead of "Windows PowerShell". The .exe is not committed to the repository (GitHub
+  Releases attach a build of the tagged source). tools\Install-Autostart.ps1 runs this script automatically.
 .EXAMPLE
   powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Build-Exe.ps1
 #>

@@ -17,7 +17,10 @@ TV の「ネットワークデバッグ」を ON にすると、TV の 5555 番�
 - TV の設定やファイルは一切変更しません（`tools/Discover-TvSignals.ps1 -OpenGameBar` で Game Bar を開く操作を除く）。
 - 外部へのネットワーク通信、テレメトリ、自動アップデートはありません。通信先は設定した TV の ADB だけです。
 - 正規表現には照合時間の上限（200 ms）を設けています。
-- `TclAutoRes.exe` はリポジトリに入れていません。`tools/Build-Exe.ps1` が、同梱のソース `src/TclAutoResLauncher.cs` から、Windows 標準の C# コンパイラーで手元で作ります（ダウンロードなし）。中身は `TclAutoResTray.ps1` を自分のプロセス内で動かすだけです。他人が配る `TclAutoRes.exe` は使わないでください。
+- `TclAutoRes.exe` の中身は、`TclAutoResTray.ps1` を自分のプロセス内で動かすだけです。ソースは `src/TclAutoResLauncher.cs` です。
+  - このリポジトリの [Releases](https://github.com/YAHOaaaaa/tcl-gamemaster-autores/releases) で配る `.exe` は、タグのソースを `tools/Build-Exe.ps1` でビルドしたものです。コード署名はありません。SHA-256 をリリースノートと `SHA256SUMS.txt` に載せています。
+  - 自動起動の登録（`tools/Install-Autostart.ps1`）では、同梱のソースから手元で作り直したものを使います。
+  - ほかの場所で配られている `TclAutoRes.exe` は使わないでください。
 
 ### 公開・共有するときの注意
 - `config/config.json`、`discover-output/`、ログ（`%LOCALAPPDATA%\TclAutoRes\`）には、TV の IP アドレスや機種情報が入ります。`.gitignore` で除外していますが、Issue などに貼る前に中身を確認してください。
@@ -29,5 +32,5 @@ TV の「ネットワークデバッグ」を ON にすると、TV の 5555 番�
 ## English
 
 - Network debugging exposes ADB (shell access) on TCP 5555. Use it only on a trusted home network, never forward the port, accept the TV's "Allow debugging?" prompt only for a connection you just started, keep `%USERPROFILE%\.android\adbkey` private, and turn network debugging off (and revoke authorisations) when you stop using this.
-- TclAutoRes runs without administrator rights. It never executes anything received from the TV: log lines are matched locally and only a small integer is extracted and mapped to a configured profile. Commands sent to the TV are fixed and read-only (`logcat`, `cat` of a validated `/sys` node, and `getprop` / `dumpsys package` / `grep` in the check tools). Config values that reach a command line are validated and the program refuses to start otherwise. No telemetry, no outbound connections other than to the configured TV. `TclAutoRes.exe` is not shipped: `tools/Build-Exe.ps1` compiles it locally from `src/TclAutoResLauncher.cs` with the C# compiler built into Windows; it only hosts `TclAutoResTray.ps1` in-process. Do not run a `TclAutoRes.exe` someone else gives you.
+- TclAutoRes runs without administrator rights. It never executes anything received from the TV: log lines are matched locally and only a small integer is extracted and mapped to a configured profile. Commands sent to the TV are fixed and read-only (`logcat`, `cat` of a validated `/sys` node, and `getprop` / `dumpsys package` / `grep` in the check tools). Config values that reach a command line are validated and the program refuses to start otherwise. No telemetry, no outbound connections other than to the configured TV. `TclAutoRes.exe` only hosts `TclAutoResTray.ps1` in-process (source: `src/TclAutoResLauncher.cs`). The unsigned build in this repository's Releases is made from the tagged source with `tools/Build-Exe.ps1`; its SHA-256 is in the release notes and `SHA256SUMS.txt`. `tools/Install-Autostart.ps1` rebuilds it locally from the included source. Do not run a `TclAutoRes.exe` from anywhere else.
 - Do not commit `config/config.json`, `discover-output/`, logs or any TV firmware files.
