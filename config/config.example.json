@@ -1,0 +1,51 @@
+{
+  "_comment": "Copy this file to config/config.json and edit it. config.json is git-ignored. Verified on TCL 85T8B (JP, MT9653, Game Bar 3.00.19). Other TCL models: run tools/Discover-TvSignals.ps1 and see docs/porting.md.",
+
+  "adb": {
+    "_comment": "address = the TV's IP and adb port (TV settings > Network > status). path = adb.exe, empty = search PATH and the Android SDK folder.",
+    "address": "192.168.0.50:5555",
+    "serial": "",
+    "path": ""
+  },
+
+  "tv": {
+    "_comment": "logTags: logcat tags to stream. detectors: regexes with a named group (?<ratio>N) and optionally (?<port>N). hdmiPort: only react to this port number as printed in the log (null = any).",
+    "logTags": ["sita.thal", "VIDEOFUNC"],
+    "detectors": [
+      { "name": "edid-wide-screen-mode", "regex": "fpi_edid_set_wide_screen_mode, port: (?<port>\\d+), display_ratio: (?<ratio>\\d+)" },
+      { "name": "tcl-display-ratio", "regex": "setWideScreenRatio,\\d+\\].*wideScreenRatio is \\[(?<ratio>\\d+)\\]" }
+    ],
+    "hdmiPort": null
+  },
+
+  "display": {
+    "_comment": "monitorId: PnP id of the TV as Windows sees it (TOL = TCL). Use the full id (e.g. TOL9653) if more than one TCL display is attached. persist = keep the mode after reboot.",
+    "monitorId": "TOL",
+    "persist": true,
+    "refreshTolerance": 1.0
+  },
+
+  "profiles": {
+    "_comment": "Key = ratio number from the TV log (Game Bar: 0 = 16:9, 1 = 21:9, 2 = 32:9). fallback is used when the mode is missing or (with verify) the TV gets no stable signal.",
+    "0": { "label": "16:9", "width": 3840, "height": 2160, "refresh": 120, "fallback": { "width": 3840, "height": 2160, "refresh": 60 } },
+    "1": { "label": "21:9", "width": 3840, "height": 1600, "refresh": 120, "fallback": { "width": 3840, "height": 1600, "refresh": 60 } },
+    "2": { "label": "32:9", "width": 3840, "height": 1080, "refresh": 120, "fallback": { "width": 3840, "height": 1080, "refresh": 60 } }
+  },
+
+  "timing": {
+    "_comment": "settleMs: wait after the TV event before switching (the TV re-sends hot-plug). recheckMs: check once more afterwards and correct if Windows changed the mode back.",
+    "settleMs": 2500,
+    "recheckMs": 4000
+  },
+
+  "syncOnStart": true,
+
+  "verify": {
+    "_comment": "MediaTek TVs only: read the HDMI receiver debug node over adb (read-only) and fall back if the TV shows no stable signal. Set enabled to false on other chips.",
+    "enabled": true,
+    "hdmiInfoPath": "/sys/devices/platform/mtk_srccap0/mtk_dbg/hdmirx/HDMI_INFO",
+    "timeoutSec": 10
+  },
+
+  "logFile": "%LOCALAPPDATA%\\TclAutoRes\\tclautores.log"
+}

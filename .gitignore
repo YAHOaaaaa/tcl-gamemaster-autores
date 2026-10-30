@@ -1,0 +1,17 @@
+# Local configuration (contains the TV's IP address)
+config/config.json
+# Discovery output and logs (device details)
+discover-output/
+*.log
+*.log.1
+# Never commit TV firmware or EDID dumps
+*.so
+*.apk
+*.bin
+*.reg
+# adb keys
+adbkey
+adbkey.pub
+# Local test launchers
+*.local.bat
+*.local.txt
