@@ -33,6 +33,8 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 | 同環境で 32:9 の 3840x1080@120 を表示 | 確認済み（TV と同じタイミングのカスタム解像度。受信約 119.7Hz、TV で比率を変えると自動で切替） |
 | ほかの TCL 機種（85Q7C など） | 未確認。[docs/porting.md](docs/porting.md) の手順で調べられます |
 
+変更履歴：[CHANGELOG.md](CHANGELOG.md)
+
 ## 使い方（概要）
 
 詳しくは [docs/setup.md](docs/setup.md)。
