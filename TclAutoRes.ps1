@@ -46,7 +46,14 @@ if ($ListDisplays) {
     if (-not $dev) { Write-Host "No display matches monitorId '$($cfg.MonitorId)'. Set display.monitorId in config.json."; exit 1 }
     Write-Host "TV display: $dev  current: $((Get-TarCurrentMode -Device $dev | ForEach-Object { '{0}x{1}@{2}' -f $_.Width, $_.Height, $_.Refresh }))"
     Write-Host 'Modes Windows offers for the TV:'
-    [TarDisplay]::Modes($dev) | Sort-Object { [int](($_ -split '[x@]')[0]) }, { [int](($_ -split '[x@]')[1]) }, { [int](($_ -split '[x@]')[2]) } | ForEach-Object { Write-Host "  $_" }
+    $byMode = { [int](($_ -split '[x@]')[0]) }, { [int](($_ -split '[x@]')[1]) }, { [int](($_ -split '[x@]')[2]) }
+    $listed = [TarDisplay]::Modes($dev)
+    $listed | Sort-Object $byMode | ForEach-Object { Write-Host "  $_" }
+    $rawOnly = @([TarDisplay]::Modes($dev, $true) | Where-Object { $listed -notcontains $_ })
+    if ($rawOnly.Count -gt 0) {
+        Write-Host 'Raw-only modes (custom resolutions outside the TV''s current EDID; used when no listed mode matches):'
+        $rawOnly | Sort-Object $byMode | ForEach-Object { Write-Host "  $_" }
+    }
     exit 0
 }
 

@@ -50,11 +50,15 @@ if ($dev) {
     $cur = Get-TarCurrentMode -Device $dev
     Write-Host ("     current mode: {0}x{1}@{2}" -f $cur.Width, $cur.Height, $cur.Refresh)
     $modes = [TarDisplay]::Modes($dev)
+    $rawModes = [TarDisplay]::Modes($dev, $true)
     foreach ($k in ($cfg.Profiles.Keys | Sort-Object)) {
         $pr = $cfg.Profiles[$k]
-        $found = @($modes | Where-Object { $_ -match '^(\d+)x(\d+)@(\d+)$' -and [int]$Matches[1] -eq $pr.Width -and [int]$Matches[2] -eq $pr.Height -and [math]::Abs([int]$Matches[3] - $pr.Refresh) -le $cfg.RefreshTol })
+        $match = { $_ -match '^(\d+)x(\d+)@(\d+)$' -and [int]$Matches[1] -eq $pr.Width -and [int]$Matches[2] -eq $pr.Height -and [math]::Abs([int]$Matches[3] - $pr.Refresh) -le $cfg.RefreshTol }
+        $found = @($modes | Where-Object $match)
+        $foundRaw = @($rawModes | Where-Object $match)
         $text = "profile {0} [{1}] {2}x{3}@{4}" -f $k, $pr.Label, $pr.Width, $pr.Height, $pr.Refresh
         if ($found.Count -gt 0) { Write-Host "[OK] $text available in Windows ($($found -join ', '))" }
+        elseif ($foundRaw.Count -gt 0) { Write-Host "[OK] $text available as a raw mode (custom resolution outside the TV's current EDID: $($foundRaw -join ', '))" }
         else { Write-Host "[--] $text not offered by Windows right now (normal if the TV is in another ratio; otherwise create a custom resolution)" }
     }
 }

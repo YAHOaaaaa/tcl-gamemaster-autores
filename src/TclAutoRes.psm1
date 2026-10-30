@@ -335,10 +335,14 @@ public static class TarDisplay {
         return r;
     }
 
-    public static List<string> Modes(string dev) {
+    public static List<string> Modes(string dev) { return Modes(dev, false); }
+
+    // raw = EDS_RAWMODE: also the modes the monitor's current EDID does not cover, e.g. a custom resolution made
+    // for another TV ratio while a Windows EDID override is active.
+    public static List<string> Modes(string dev, bool raw) {
         List<string> r = new List<string>();
         DEVMODE d = NewMode();
-        for (int i = 0; EnumDisplaySettingsEx(dev, i, ref d, 0); i++) {
+        for (int i = 0; EnumDisplaySettingsEx(dev, i, ref d, raw ? 2 : 0); i++) {
             string s = d.dmPelsWidth + "x" + d.dmPelsHeight + "@" + d.dmDisplayFrequency;
             if (!r.Contains(s)) r.Add(s);
             d = NewMode();
@@ -384,12 +388,17 @@ function Set-TarDisplayMode {
     if ($cur.dmPelsWidth -eq $Width -and $cur.dmPelsHeight -eq $Height -and [math]::Abs($cur.dmDisplayFrequency - $Refresh) -le $Tolerance) { return 'already' }
 
     # Pick the listed refresh rate closest to the target (Windows reports 119.98 Hz as 119 or 120).
+    # If the normal list has none, look in the raw list (custom resolutions outside the TV's current EDID);
+    # the driver still has to accept the mode with CDS_TEST below, and verify/fallback still apply.
     $freqs = @()
-    foreach ($m in [TarDisplay]::Modes($Device)) {
-        if ($m -match '^(\d+)x(\d+)@(\d+)$' -and [int]$Matches[1] -eq $Width -and [int]$Matches[2] -eq $Height) {
-            $f = [int]$Matches[3]
-            if ([math]::Abs($f - $Refresh) -le $Tolerance) { $freqs += $f }
+    foreach ($raw in $false, $true) {
+        foreach ($m in [TarDisplay]::Modes($Device, $raw)) {
+            if ($m -match '^(\d+)x(\d+)@(\d+)$' -and [int]$Matches[1] -eq $Width -and [int]$Matches[2] -eq $Height) {
+                $f = [int]$Matches[3]
+                if ([math]::Abs($f - $Refresh) -le $Tolerance) { $freqs += $f }
+            }
         }
+        if ($freqs.Count -gt 0) { break }
     }
     if ($freqs.Count -eq 0) { return 'nomode' }
     $freq = ($freqs | Sort-Object { [math]::Abs($_ - $Refresh) }, { -1 * $_ } | Select-Object -First 1)

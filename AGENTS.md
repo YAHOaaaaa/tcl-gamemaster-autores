@@ -44,7 +44,8 @@ You are helping a user run or adapt **TclAutoRes** for their TCL Google TV and W
 - The TV re-sends hot-plug on every ratio change; Windows may apply its own mode right after. That is why there is `settleMs` and a one-time `recheckMs` correction.
 - Windows reports 119.98 Hz as 119 or 120; `refreshTolerance` handles it.
 - The TV log buffer rotates; start-up sync can find nothing. That is normal; the next change is detected.
-- With a Windows EDID override active, Windows ignores the TV's EDID changes, so only TclAutoRes switches the mode.
+- With a Windows EDID override active, Windows ignores the TV's EDID changes, so only TclAutoRes switches the mode. Modes outside the overridden EDID (e.g. a 3840x1080@120 custom resolution for 32:9) may appear only in the raw mode list; `Set-TarDisplayMode` falls back to `EDS_RAWMODE` and still requires `CDS_TEST` to pass.
+- For custom resolutions, prefer the TV's own wide-screen timings (the `ZOOM` values in docs/how-it-works.md section 2) over the GPU's automatic timing.
 - Custom timings above about 600 MHz need HDMI 2.1 FRL. Some cable/port/driver combinations fail at FRL 12G (no signal) - see docs/how-it-works.md section 3.
 
 ## Coding conventions

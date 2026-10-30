@@ -23,7 +23,7 @@ TCL の Google TV は、多くの機種で同じ Game Bar（`com.tcl.gamebar`）
 
 | 機種 | clientType / SoC | Game Bar | 検知に使うログ | 比率番号 | 確認状況 |
 |---|---|---|---|---|---|
-| 85T8B（日本） | TCL-JP-MT9653-S1 / MT9653 | 3.00.19 | `sita.thal` `fpi_edid_set_wide_screen_mode`、`VIDEOFUNC` `setWideScreenRatio` | 0 = 16:9、1 = 21:9、2 = 32:9（32:9 は未確認） | 検知・切替・自動復帰・21:9@120：確認済み（Windows 11 + RTX 3070、21:9@120 は EDID 上書きで最大 FRL 8G） |
+| 85T8B（日本） | TCL-JP-MT9653-S1 / MT9653 | 3.00.19 | `sita.thal` `fpi_edid_set_wide_screen_mode`、`VIDEOFUNC` `setWideScreenRatio` | 0 = 16:9、1 = 21:9、2 = 32:9 | 検知・切替・自動復帰・21:9@120・32:9@120：確認済み（Windows 11 + RTX 3070、21:9@120 は EDID 上書きで最大 FRL 8G、32:9@120 は TV と同じタイミングのカスタム解像度） |
 | 85Q7C ほか | ? | ? | ? | ? | 未確認 |
 
 ## うまくいかないとき
