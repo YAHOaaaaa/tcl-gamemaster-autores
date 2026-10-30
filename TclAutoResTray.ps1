@@ -6,9 +6,11 @@
 .DESCRIPTION
   Tray menu: enable/disable automatic switching, sync now, apply a profile manually, open the log, exit.
   The on/off state is remembered in %LOCALAPPDATA%\TclAutoRes\tray-state.json.
-  Start it at sign-in with tools\Install-Autostart.ps1.
+  Start it at sign-in with tools\Install-Autostart.ps1. Normally it runs inside TclAutoRes.exe
+  (src\TclAutoResLauncher.cs), so Windows lists the icon as "TclAutoRes".
 
 .EXAMPLE
+  .\TclAutoRes.exe
   powershell -NoProfile -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File .\TclAutoResTray.ps1
 #>
 [CmdletBinding()]

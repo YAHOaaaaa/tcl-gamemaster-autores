@@ -55,10 +55,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\TclAutoRes.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1          # 登録して開始（トレイアイコン付き）
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1 -Remove  # 解除
 ```
-- Windows にサインインすると、通知領域（システムトレイ）に TV の形のアイコンが出て、裏で監視が始まります。
+- 登録のとき、`tools\Build-Exe.ps1` で `TclAutoRes.exe`（トレイアイコンの起動役）を手元で作ります。Windows 標準の C# コンパイラーを使うので、管理者権限もダウンロードも不要です。ソースは `src\TclAutoResLauncher.cs` です。
+- Windows にサインインすると `TclAutoRes.exe` が起動し、通知領域（システムトレイ）に TV の形のアイコンが出て、裏で監視が始まります。窓は出ません。タスクバーの設定やタスクマネージャーでは「TclAutoRes」と表示されます。
+- 初めて `TclAutoRes.exe` で登録したときは、アイコンが「^」の中に隠れていることがあります。設定 → 個人用設定 → タスクバー → その他のシステム トレイ アイコン で「TclAutoRes」をオンにすると、常に表示されます（以前の「Windows PowerShell」の項目は不要です）。
+- 登録し直すと、動いている TclAutoRes をいったん止めてから、`TclAutoRes.exe` を作り直して起動します。
 - アイコンの色：緑 = ON、灰 = OFF、橙 = 再起動中。右クリックのメニューで、ON/OFF、今すぐ TV に合わせる、手動切替、ログを開く、終了ができます。ON/OFF は次回の起動にも引き継がれます。
 - 監視が止まっても自動で再起動します。短時間に 3 回止まった場合は、その回だけ OFF にして通知します（別の常駐が動いている、設定の誤りなど）。
-- アイコン無しで動かしたい場合は `-NoTray` を付けて登録します。
+- アイコン無しで動かしたい場合は `-NoTray` を付けて登録します。`.exe` を使わず、これまでどおり powershell.exe でトレイを動かす場合は `-NoExe` を付けます（一覧での名前は「Windows PowerShell」になります）。
 - 先に手動で `TclAutoRes.ps1` を常駐させている場合は、その窓を閉じてから登録してください（同時に 2 つは動きません）。
 
 ログ：`%LOCALAPPDATA%\TclAutoRes\tclautores.log`

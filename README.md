@@ -21,7 +21,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 
 - 管理者権限は不要です。TV の設定やファイルは変更しません（読み取りだけ）。
 - Windows のスタートアップ（サインイン時）で裏で動き、システムトレイのアイコンで ON/OFF できます。
-- Windows 標準の PowerShell 5.1 だけで動きます。必要なのは Google 公式の `adb.exe` だけです。
+- Windows 標準の PowerShell 5.1 だけで動きます。必要なのは Google 公式の `adb.exe` だけです。トレイの起動役 `TclAutoRes.exe` も、Windows 標準の C# コンパイラーで手元で作ります（配布物に .exe は含みません）。
 
 ## 対応状況
 
@@ -48,7 +48,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
    powershell -NoProfile -ExecutionPolicy Bypass -File .\TclAutoRes.ps1
    powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Install-Autostart.ps1
    ```
-6. サインインすると、システムトレイのアイコンから自動切替の ON/OFF、今すぐ同期、手動切替、ログ表示ができます。
+6. サインインすると `TclAutoRes.exe` が起動し、システムトレイのアイコンから自動切替の ON/OFF、今すぐ同期、手動切替、ログ表示ができます。`TclAutoRes.exe` は、登録のときに同梱のソースから手元で作られます（[docs/setup.md](docs/setup.md) の 7 章）。
 
 ## ほかの TCL TV で使う／AI に任せる
 
@@ -64,7 +64,7 @@ TCL の Google TV（Game Master / Game Bar）で **画面比率（16:9 / 21:9 / 
 
 ## English summary
 
-TclAutoRes is a small Windows PowerShell watcher (no admin rights) that follows a TCL Google TV's Game Bar "screen ratio" setting over adb and switches the PC's display mode to a configured resolution/refresh rate per ratio (e.g. 16:9 → 3840x2160@120, 21:9 → 3840x1600@120). It never modifies the TV; it only reads `logcat` (and, on MediaTek TVs, a read-only HDMI receiver debug node to verify the new mode and fall back if there is no picture). Verified log detection on a TCL 85T8B (JP, MT9653, Game Bar 3.00.19). For other models, run `tools/Discover-TvSignals.ps1` and follow `docs/porting.md`; AI assistants should read `AGENTS.md` first. Use entirely at your own risk - see `DISCLAIMER.md` and `SECURITY.md`.
+TclAutoRes is a small Windows PowerShell watcher (no admin rights) that follows a TCL Google TV's Game Bar "screen ratio" setting over adb and switches the PC's display mode to a configured resolution/refresh rate per ratio (e.g. 16:9 → 3840x2160@120, 21:9 → 3840x1600@120). It never modifies the TV; it only reads `logcat` (and, on MediaTek TVs, a read-only HDMI receiver debug node to verify the new mode and fall back if there is no picture). The tray icon runs as `TclAutoRes.exe`, a small launcher that `tools/Install-Autostart.ps1` compiles locally from `src/TclAutoResLauncher.cs` (no binary is shipped). Verified log detection on a TCL 85T8B (JP, MT9653, Game Bar 3.00.19). For other models, run `tools/Discover-TvSignals.ps1` and follow `docs/porting.md`; AI assistants should read `AGENTS.md` first. Use entirely at your own risk - see `DISCLAIMER.md` and `SECURITY.md`.
 
 ## ライセンス
 

@@ -15,3 +15,5 @@ adbkey.pub
 # Local test launchers
 *.local.bat
 *.local.txt
+# Built locally by tools/Build-Exe.ps1 - never commit binaries
+*.exe

@@ -10,7 +10,7 @@ You are helping a user run or adapt **TclAutoRes** for their TCL Google TV and W
 2. **Never accept trust prompts for the user.** The user accepts "Allow USB debugging?" on the TV themselves, only for a connection they started.
 3. **No administrator rights for TclAutoRes.** Do not add registry edits, EDID overrides, driver restarts or anything elevated to this repository. If the user's setup needs an EDID override (see docs/how-it-works.md section 3), explain the risk and point to the separate research repository; let the user decide and run it themselves.
 4. **Keep the security model:** nothing received from the TV is executed; only an integer is extracted from log lines; every config value that reaches a command line is validated in `Read-TarConfig`. Keep adb arguments as validated tokens. Do not add network calls, telemetry or auto-update.
-5. **Do not commit personal data or firmware:** `config/config.json`, `discover-output/`, logs, IP/MAC addresses, serial numbers, `.so`/`.apk`/`.bin` files from the TV.
+5. **Do not commit personal data, firmware or binaries:** `config/config.json`, `discover-output/`, logs, IP/MAC addresses, serial numbers, `.so`/`.apk`/`.bin` files from the TV, `TclAutoRes.exe` or any other `.exe`.
 6. Display mode changes must keep the safety net: test with `CDS_TEST` first, keep `fallback` modes, keep `verify` when the TV supports it. Tell the user before applying a mode that has never been shown on their TV.
 
 ## Repository map
@@ -23,7 +23,9 @@ You are helping a user run or adapt **TclAutoRes** for their TCL Google TV and W
 | `config/config.example.json` | Commented example; the user copies it to `config/config.json` |
 | `tools/Test-Setup.ps1` | Read-only end-to-end check (config, adb, TV log events, display, modes) |
 | `tools/Discover-TvSignals.ps1` | Porting helper: records logcat while the user changes the ratio and writes a report with a suggested `tv` config |
-| `tools/Install-Autostart.ps1` | Per-user scheduled task at sign-in that starts the tray icon (`-NoTray` = watcher only, `-Remove` to delete) |
+| `src/TclAutoResLauncher.cs` | Source of `TclAutoRes.exe`: hosts `TclAutoResTray.ps1` in-process so Windows lists the tray icon as "TclAutoRes". No logic of its own |
+| `tools/Build-Exe.ps1` | Compiles `TclAutoRes.exe` locally with the .NET Framework 4 C# compiler (C# 5 only). The .exe is never committed |
+| `tools/Install-Autostart.ps1` | Per-user scheduled task at sign-in that builds and starts `TclAutoRes.exe` (`-NoExe` = tray via powershell.exe, `-NoTray` = watcher only, `-Remove` to delete). Stops running copies first |
 | `docs/how-it-works.md` | Verified findings on the reference TV (85T8B) |
 | `docs/porting.md` | Porting guide and the model table |
 
