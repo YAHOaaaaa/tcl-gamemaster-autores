@@ -46,6 +46,7 @@ You are helping a user run or adapt **TclAutoRes** for their TCL Google TV and W
 - Windows reports 119.98 Hz as 119 or 120; `refreshTolerance` handles it.
 - The TV log buffer rotates; start-up sync can find nothing. That is normal; the next change is detected.
 - With a Windows EDID override active, Windows ignores the TV's EDID changes, so only TclAutoRes switches the mode. Modes outside the overridden EDID (e.g. a 3840x1080@120 custom resolution for 32:9) may appear only in the raw mode list; `Set-TarDisplayMode` falls back to `EDS_RAWMODE` and still requires `CDS_TEST` to pass.
+- 21:9 with the Game Bar position "top": with a short vertical total (e.g. CVT-RB 1694 lines) the TV's single-buffer read-out overtakes the incoming frame mid-picture, so the lower part is one frame late (lag + a tear line). Use a 3840x1600@120 timing with vertical total 2250 (front porch 638, sync 6, 1080 MHz); see docs/how-it-works.md section 5. Diagnose with `mtk_dbg/frc_status` (`TGEN VDeSt`, `W/R Idx`).
 - For custom resolutions, prefer the TV's own wide-screen timings (the `ZOOM` values in docs/how-it-works.md section 2) over the GPU's automatic timing.
 - Custom timings above about 600 MHz need HDMI 2.1 FRL. Some cable/port/driver combinations fail at FRL 12G (no signal) - see docs/how-it-works.md section 3.
 

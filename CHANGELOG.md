@@ -1,5 +1,10 @@
 # 変更履歴 / Changelog
 
+## v2.0.2（2026-10-30）
+
+- **21:9・画面位置「トップ」の遅延と同期のずれの対処を追加**：3840x1600@120 のカスタム解像度を、垂直の合計 2250 行（前ポーチ 638、同期 6、1080MHz）で作ると直ります（85T8B で確認）。原因と調べ方は `docs/how-it-works.md` の 5 章、値は `docs/setup.md` の 3 章。
+- プログラムの動作は v2.0.1 と同じです（文書の更新のみ）。
+
 ## v2.0.1（2026-10-30）
 
 - **リリースに `TclAutoRes.exe` を添付**：リリースの zip（`TclAutoRes-v2.0.1.zip`）に、タグのソースからビルドした `TclAutoRes.exe` と `SHA256SUMS.txt` を入れました。コード署名はありません。自動起動の登録では、これまでどおり同梱のソースから作り直したものを使います。
@@ -24,4 +29,4 @@
 
 ---
 
-**English:** v2.0.1 attaches an unsigned `TclAutoRes.exe` (built from the tagged source, with SHA-256 sums) to the release and states that this repository was made with AI and is for reference only; behaviour is unchanged from v2.0.0. v2.0.0 adds 32:9 (3840x1080@120, verified on the 85T8B) by falling back to the raw mode list when a custom resolution is outside the current (overridden) EDID, and runs the tray icon as `TclAutoRes.exe`, built locally from the included C# source (no binary is shipped). v1.0.0 was the first release (16:9 / 21:9).
+**English:** v2.0.2 documents the fix for lag and a tear line with 21:9 and the Game Bar position "top": build the 3840x1600@120 custom resolution with a vertical total of 2250 lines (front porch 638, sync 6, 1080 MHz) so the TV's single-buffer read-out never overtakes the incoming frame (docs/how-it-works.md section 5). v2.0.1 attaches an unsigned `TclAutoRes.exe` (built from the tagged source, with SHA-256 sums) to the release and states that this repository was made with AI and is for reference only; behaviour is unchanged from v2.0.0. v2.0.0 adds 32:9 (3840x1080@120, verified on the 85T8B) by falling back to the raw mode list when a custom resolution is outside the current (overridden) EDID, and runs the tray icon as `TclAutoRes.exe`, built locally from the included C# source (no binary is shipped). v1.0.0 was the first release (16:9 / 21:9).

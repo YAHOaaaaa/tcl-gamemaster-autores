@@ -18,8 +18,8 @@ using System.Windows.Forms;
 [assembly: AssemblyProduct("TclAutoRes")]
 [assembly: AssemblyDescription("TclAutoRes tray launcher (runs TclAutoResTray.ps1)")]
 [assembly: AssemblyCopyright("MIT License")]
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
+[assembly: AssemblyVersion("2.0.2.0")]
+[assembly: AssemblyFileVersion("2.0.2.0")]
 
 static class TclAutoResLauncher
 {
